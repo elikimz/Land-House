@@ -36,7 +36,7 @@ const Contact = () => {
           {/* Phone number section */}
           <div className="mb-6">
             <p className="text-lg">You can also call us at: 
-              <a href="tel:0791337188" className="text-red-600 underline ml-2">0791337188</a>
+              <a href="tel:0791337188" className="text-red-600 underline ml-2">+254758146778</a>
             </p>
           </div>
           <form ref={formRef} onSubmit={sendEmail} className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
