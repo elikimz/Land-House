@@ -8,67 +8,61 @@ interface Property {
   price: string;
   description: string;
   details: string;
-  image: string;
+  media: string; // Main media can be an image or video
+  additionalMedia: string[]; // Array can contain images or videos
 }
 
 const Home: React.FC = () => {
-  // State to manage the selected property for the modal
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [mainMedia, setMainMedia] = useState<string | null>(null);
 
-  // Array of property objects with details
   const properties: Property[] = [
     {
       title: 'Luxury Villa',
-      price: '$500,000',
-      description: 'A beautiful villa with stunning views and modern amenities.',
+      price: '230M',
+      description: 'It has 1 Kitchen, 3 lounges, 1 dining, 9 bedroomed ensuite, 3 share bathrooms. In total 11 bedrooms, Swimming pool, Sauna, Changing room and gym, Barbecue area, Servant quarters for two, Big balcony upstairs overlooking Gong hills, Ample water supply. Sitting on 5 acres.',
       details: 'This luxury villa features 4 bedrooms, 3 bathrooms, a swimming pool, and a large garden.',
-      image: "https://imgs.search.brave.com/suAl31Q0ZEsRfCIg1Mx8DJX6n4YJ59EdnMmd2rm-33A/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzA1LzMwLzk0/LzM2MF9GXzIwNTMw/OTQ0NF9DSHdzRmpU/MHcwOWdxeXppMXpQ/OGFoUEh5TGlUMEs2/Mi5qcGc",
+      media: "https://i.postimg.cc/c4t0RgdY/51.jpg", // Can be a video URL too
+      additionalMedia: [
+        "https://i.postimg.cc/qv8rFPhv/52.jpg",
+        // Example video URL
+        "https://i.postimg.cc/qqPfbwpK/54.jpg",
+        "https://i.postimg.cc/2jMfSkn5/55.jpg",
+        "https://i.postimg.cc/3JGQysZF/56.jpg",
+      ],
     },
     {
       title: 'Modern Apartment',
-      price: '$300,000',
-      description: 'Stylish apartment in the heart of the city.',
-      details: 'This apartment offers 2 bedrooms, a spacious living area, and close proximity to local shops and restaurants.',
-      image: "https://imgs.search.brave.com/EhiOXJnyebaz-Vp8cVc1JHBYp5iUWI-nMX1u1l1-lZs/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQ0/OTIxMjQxMy9waG90/by9yb3ctaG91c2Vz/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1WOU1QQ3RBSUFV/VHRQWkpZYjYwZnVy/WVdNbENrUDhFSVFH/ZVdaU0lXZy00PQ",
-    },
-    {
-      title: 'Cozy Cottage',
-      price: '$200,000',
-      description: 'A charming cottage perfect for a small family.',
-      details: 'This cozy cottage includes 2 bedrooms, a quaint garden, and a lovely fireplace for those cold evenings.',
-      image: "https://imgs.search.brave.com/53VxCK03M9ToZoUjQJnmAhUG-leDkldW9AtB1gMw84g/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvODg2/MjExNDAvcGhvdG8v/ZXh0ZXJpb3Itb2Yt/bW9kZXJuLWhvdXNl/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1aeGxqMHRNcV9x/ZG10YXVOaFBqdl9R/THBURXRxQS1Da0VR/anFjQzd0NVg4PQ",
-    },
-    {
-      title: 'Spacious Family Home',
-      price: '$750,000',
-      description: 'Perfect for larger families with plenty of space.',
-      details: 'This home features 5 bedrooms, a large backyard, and a two-car garage.',
-      image: "https://imgs.search.brave.com/MUO62NbVqlXDEGtCEcR914KzOpr9U1MV8YnY6YvvPtU/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQx/NTg4Njg4Ny9waG90/by9mcmVzaGx5LXBh/aW50ZWQtY3JhZnRz/bWFuLWJ1bmdhbG93/LWhvdXNlLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1sY3dp/eUpxalVvSU0wRmZS/YjNUd1YyQnpVWThS/UzdvVDl6Rm1aR3Y0/bkxJPQ",
-    },
-    {
-      title: 'Chic Urban Loft',
-      price: '$450,000',
-      description: 'An industrial-style loft in a trendy neighborhood.',
-      details: 'This urban loft features high ceilings, exposed brick, and is surrounded by local cafes and boutiques.',
-      image: "https://imgs.search.brave.com/gHy_gnP7ycWUxo8gcz_rQmZJaXMA7szE7K6pZiqNUtg/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTM5/Njg1NjI1MS9waG90/by9jb2xvbmlhbC1o/b3VzZS5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9X3RHaWl4/X0hUUWtKajJwaVRz/aWxNdVZlZjl2Mm5V/d0VrU0M5QWxvODlC/TT0",
-    },
-    {
-      title: 'Elegant Mansion',
-      price: '$1,500,000',
-      description: 'A grand mansion with luxurious features.',
-      details: 'This mansion boasts 6 bedrooms, a home theater, and an exquisite swimming pool.',
-      image: "https://imgs.search.brave.com/hF_Ur2Qc7ord0wgoT7eImSVCrq-9ecRIiBNYZzAasn4/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQw/OTQ1NjI0My9waG90/by9hbi1lbGV2YXRl/ZC12aWV3LW9mLWxv/bmRvbi1ob3VzZXMt/YXQtc3Vuc2V0Lmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1o/ZzlfRUpvQzFSNzhX/MWJiQTljSmRkSV9K/WElHcnhkSDlqSjRf/NUpQX3l3PQ",
+      price: 'Selling for 90M (negotiable); monthly income: 130K',
+      description: 'House for sale along Kiseriani Shopping Center.',
+      details: 'The apartment features two bedrooms.',
+      media: "https://i.postimg.cc/43qrNwhS/6.jpg",
+      additionalMedia: [
+        "https://i.postimg.cc/43qrNwhS/6.jpg",
+       "https://www.youtube.com/watch?v=DujLjGCqzgo",  // Another example video
+       "https://www.youtube.com/watch?v=3mso28oVijk",
+       "https://www.youtube.com/watch?v=hHQSlzlx_a4", //
+      ],
     }
+    // Add more properties here...
   ];
 
-  // Function to open the modal with selected property details
   const openModal = (property: Property) => {
     setSelectedProperty(property);
+    setMainMedia(property.media);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setSelectedProperty(null);
+    setMainMedia(null);
+  };
+
+  const changeMainMedia = (media: string) => {
+    setMainMedia(media);
+  };
+
+  const isVideo = (url: string) => {
+    return url.includes('youtube.com') || url.includes('vimeo.com'); // Add more video platforms if needed
   };
 
   return (
@@ -91,7 +85,20 @@ const Home: React.FC = () => {
             {/* Property Cards */}
             {properties.map((property, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
-                <img src={property.image} alt={property.title} className="w-full h-40 object-cover" />
+                {isVideo(property.media) ? (
+                  <iframe
+                    src={property.media.replace("watch?v=", "embed/")}
+                    title={property.title}
+                    className="w-full h-60 object-cover" // Adjust height
+                    allowFullScreen
+                  />
+                ) : (
+                  <img
+                    src={property.media}
+                    alt={property.title}
+                    className="w-full h-60 object-cover" // Adjust height
+                  />
+                )}
                 <div className="p-4">
                   <h3 className="text-xl font-semibold">{property.title}</h3>
                   <p className="text-gray-700">{property.price}</p>
@@ -108,12 +115,56 @@ const Home: React.FC = () => {
 
         {/* Modal for Property Details */}
         {selectedProperty && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg w-11/12 max-w-md">
-              <h2 className="text-2xl font-bold mb-2">{selectedProperty.title}</h2>
-              <p className="text-lg mb-2">{selectedProperty.price}</p>
-              <p className="text-gray-700 mb-4">{selectedProperty.details}</p>
-              <button onClick={closeModal} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">Close</button>
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 transition-opacity duration-300">
+            <div className="bg-white p-4 rounded-lg w-11/12 max-w-4xl flex flex-col md:flex-row shadow-lg">
+              <div className="md:w-1/2 p-2">
+                {/* Main Media Display */}
+                {mainMedia && (
+                  isVideo(mainMedia) ? (
+                    <iframe
+                      src={mainMedia.replace("watch?v=", "embed/")}
+                      title="Main view"
+                      className="w-full h-auto object-cover rounded-md"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <img src={mainMedia} alt="Main view" className="w-full h-auto object-cover rounded-md" />
+                  )
+                )}
+              </div>
+              <div className="md:w-1/2 p-4 flex flex-col justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">{selectedProperty.title}</h2>
+                  <p className="text-lg mb-2">{selectedProperty.price}</p>
+                  <p className="text-gray-700 mb-4">{selectedProperty.details}</p>
+
+                  {/* Additional Media */}
+                  <div className="flex overflow-x-auto space-x-2 mb-4">
+                    {selectedProperty.additionalMedia.map((media, idx) => (
+                      isVideo(media) ? (
+                        <iframe
+                          key={idx}
+                          src={media.replace("watch?v=", "embed/")}
+                          title={`Additional view ${idx + 1}`}
+                          className="w-32 h-32 object-cover rounded-md cursor-pointer transition-transform transform hover:scale-105"
+                          allowFullScreen
+                          onClick={() => changeMainMedia(media)} // Change the main media on click
+                        />
+                      ) : (
+                        <img
+                          key={idx}
+                          src={media}
+                          alt={`Additional view ${idx + 1}`}
+                          className="w-32 h-32 object-cover rounded-md cursor-pointer transition-transform transform hover:scale-105"
+                          onClick={() => changeMainMedia(media)} // Change the main media on click
+                        />
+                      )
+                    ))}
+                  </div>
+                </div>
+
+                <button onClick={closeModal} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">Close</button>
+              </div>
             </div>
           </div>
         )}
