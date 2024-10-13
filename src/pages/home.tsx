@@ -33,8 +33,8 @@ const Home: React.FC = () => {
     },
     {
       title: 'Modern Apartment',
-      price: 'Selling for 90M (negotiable); monthly income: 130K',
       description: 'House for sale along Kiseriani Shopping Center.',
+      price: 'Selling for 90M (negotiable); monthly income: 130K',
       details: 'The apartment features two bedrooms.',
       media: "https://i.postimg.cc/43qrNwhS/6.jpg",
       additionalMedia: [
